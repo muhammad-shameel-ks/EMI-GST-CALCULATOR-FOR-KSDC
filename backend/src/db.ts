@@ -24,7 +24,15 @@ let pool: sql.ConnectionPool | null = null;
 let currentDB: string | undefined = process.env.DB_DATABASE;
 
 export const connectDB = async (dbName?: string) => {
+  console.log(
+    `Attempting to connect to database. Requested dbName: ${
+      dbName || "default (from environment variable)"
+    }`
+  );
   if (pool && !dbName) {
+    console.log(
+      `Already connected to a database and no new dbName provided. Keeping existing connection.`
+    );
     return; // Already connected, and no new DB name provided
   }
 
@@ -39,6 +47,7 @@ export const connectDB = async (dbName?: string) => {
     ...baseConfig,
     database: currentDB,
   };
+  console.log(`SQL Connection Config Database: ${sqlConfig.database}`);
 
   try {
     pool = await new sql.ConnectionPool(sqlConfig).connect();

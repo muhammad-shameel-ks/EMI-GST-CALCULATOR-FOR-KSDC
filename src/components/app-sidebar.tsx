@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import {
   IconChartBar,
   IconDashboard,
@@ -6,14 +6,15 @@ import {
   IconFolder,
   IconInnerShadowTop,
   IconSearch,
-} from "@tabler/icons-react"
+} from "@tabler/icons-react";
+import { Badge } from "@/components/ui/badge";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { NavMain } from "@/components/nav-main"
+import { NavMain } from "@/components/nav-main";
 import {
   Sidebar,
   SidebarContent,
@@ -23,7 +24,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 const data = {
   navMain: [
@@ -53,7 +54,7 @@ const data = {
       icon: IconFileX,
     },
   ],
-}
+};
 
 const DbStatus = () => {
   const [currentDb, setCurrentDb] = React.useState("");
@@ -122,12 +123,13 @@ const DbStatus = () => {
               }`}
             ></div>
             <span className="text-sm text-muted-foreground">
-              {loading
-                ? "Checking..."
-                : error
-                ? "Error"
-                : currentDb}
+              {loading ? "Checking..." : error ? "Error" : currentDb}
             </span>
+            {currentDb === "KSDC_SMART_LIVE" && (
+              <Badge variant="default" className="ml-2 bg-green-600">
+                LIVE
+              </Badge>
+            )}
           </div>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-4">
@@ -159,7 +161,10 @@ const DbStatus = () => {
   );
 };
 
-export function AppSidebar({ setPage, ...props }: React.ComponentProps<typeof Sidebar> & { setPage: (page: string) => void }) {
+export function AppSidebar({
+  setPage,
+  ...props
+}: React.ComponentProps<typeof Sidebar> & { setPage: (page: string) => void }) {
   return (
     <Sidebar collapsible="icon" variant="inset" {...props}>
       <SidebarHeader>
@@ -185,5 +190,5 @@ export function AppSidebar({ setPage, ...props }: React.ComponentProps<typeof Si
         <DbStatus />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
