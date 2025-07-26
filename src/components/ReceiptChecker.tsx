@@ -148,8 +148,6 @@ export const ReceiptChecker = () => {
       queries: initialQueries,
     });
 
-    await new Promise((res) => setTimeout(res, 500));
-
     if (!loanno || !receiptAmount || !date || !receiptNo) {
       const finalResult: ResultData = {
         status: "error",
@@ -174,7 +172,6 @@ export const ReceiptChecker = () => {
       message: "Input validation passed.",
       queries: [...initialQueries],
     });
-    await new Promise((res) => setTimeout(res, 500));
 
     try {
       const apiPayload = {
@@ -250,30 +247,29 @@ export const ReceiptChecker = () => {
         "not_found",
       ];
 
-      for (let i = 1; i < allQueries.length; i++) {
-        let displayedQueries = allQueries.slice(0, i + 1);
-        setResult({
-          status: "checking",
-          message: `Running: ${allQueries[i].title}`,
-          queries: displayedQueries,
-        });
-        await new Promise((res) => setTimeout(res, 400 + Math.random() * 300));
-
-        const response = await fetch("/api/check-receipt-step", {
+      // Prepare all API calls
+      const apiCalls = allQueries.slice(1).map((queryDetail) =>
+        fetch("/api/check-receipt-step", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...apiPayload, step: allQueries[i].title }),
-        });
-        const stepResult = await response.json();
+          body: JSON.stringify({ ...apiPayload, step: queryDetail.title }),
+        }).then((res) => res.json())
+      );
 
-        allQueries[i].status = stepResult.status;
-        allQueries[i].result = stepResult.result;
+      // Execute all API calls concurrently
+      const results = await Promise.all(apiCalls);
+
+      // Process results and update allQueries
+      results.forEach((stepResult, index) => {
+        const queryIndex = index + 1; // +1 because allQueries includes initialQueries[0]
+        allQueries[queryIndex].status = stepResult.status;
+        allQueries[queryIndex].result = stepResult.result;
 
         let currentStepStatus: Status | null = null;
         if (stepResult.status === "error" && stepResult.result.length > 0) {
           currentStepStatus = stepResult.overallStatus || "error";
         } else if (
-          allQueries[i].title === "Exact Match Check" &&
+          allQueries[queryIndex].title === "Exact Match Check" &&
           stepResult.status === "success" &&
           stepResult.result.length > 0
         ) {
@@ -303,14 +299,7 @@ export const ReceiptChecker = () => {
             finalMessage = statusMessages[currentStepStatus] || finalMessage;
           }
         }
-
-        setResult({
-          status: "checking",
-          message: `Completed: ${allQueries[i].title}`,
-          queries: [...allQueries],
-        });
-        await new Promise((res) => setTimeout(res, 150));
-      }
+      });
 
       setResult({
         status: finalStatus,
