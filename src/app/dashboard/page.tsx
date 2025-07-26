@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
 import { useState } from "react";
-import { AppSidebar } from "@/components/app-sidebar"
-import BusinessCalculators from "@/components/BusinessCalculators"
-import DeductionCalculator from "@/components/DeductionCalculator"
-import SmartPartPaymentGen from "@/components/SmartPartPaymentGen"
-import { ReceiptChecker } from "@/components/ReceiptChecker"
+import { AppSidebar } from "@/components/app-sidebar";
+import BusinessCalculators from "@/components/BusinessCalculators";
+import DeductionCalculator from "@/components/DeductionCalculator";
+import SmartPartPaymentGen from "@/components/SmartPartPaymentGen";
+import { ReceiptChecker } from "@/components/ReceiptChecker";
 import TransactionCanceller from "@/components/TransactionCanceller";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
 const pages: { [key: string]: React.ComponentType } = {
   "/business-calculators": BusinessCalculators,

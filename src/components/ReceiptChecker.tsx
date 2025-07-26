@@ -332,7 +332,7 @@ export const ReceiptChecker = () => {
   };
 
   return (
-    <div className="w-[800px] mx-auto py-8 px-4">
+    <div className="w-[900px] mx-auto py-8 px-4">
       <div className="p-6">
         <div className="flex justify-between items-start">
           <div>
