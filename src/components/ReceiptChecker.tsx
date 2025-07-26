@@ -332,92 +332,90 @@ export const ReceiptChecker = () => {
   };
 
   return (
-    <div className="h-full flex items-center justify-center">
-      <div className="w-full max-w-4xl">
-        <div className="p-6">
-          <div className="flex justify-between items-start">
-            <div>
-              <h2 className="text-2xl font-semibold tracking-tight">
-                Missing Receipt Checker
-              </h2>
-              <p className="text-sm text-muted-foreground">
-                Check if a receipt already exists in the database.
-              </p>
-            </div>
-            <StatusBadge status={overallStatus} />
+    <div className="w-[800px] mx-auto py-8 px-4">
+      <div className="p-6">
+        <div className="flex justify-between items-start">
+          <div>
+            <h2 className="text-2xl font-semibold tracking-tight">
+              Missing Receipt Checker
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              Check if a receipt already exists in the database.
+            </p>
           </div>
+          <StatusBadge status={overallStatus} />
         </div>
-        <div className="p-6 pt-0 space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="loanno">Loan Number</Label>
-              <Input
-                id="loanno"
-                value={loanno}
-                onChange={(e) => setLoanno(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="receiptNo">Receipt Number</Label>
-              <Input
-                id="receiptNo"
-                value={receiptNo}
-                onChange={(e) => setReceiptNo(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="receiptAmount">Receipt Amount</Label>
-              <Input
-                id="receiptAmount"
-                type="number"
-                value={receiptAmount}
-                onChange={(e) => setReceiptAmount(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="date">Date</Label>
-              <Input
-                id="date"
-                type="text"
-                placeholder="e.g., 10-21-2025"
-                value={dateText}
-                onChange={(e) => handleDateChange(e.target.value)}
-                className={dateError ? "border-red-500" : ""}
-              />
-              {dateError && <p className="text-sm text-red-600">{dateError}</p>}
-            </div>
-          </div>
-          <div className="flex space-x-2">
-            <Button
-              onClick={handleCheckReceipt}
-              disabled={loading}
-              className="flex-grow"
-            >
-              {loading ? (
-                <>
-                  <Loader className="mr-2 h-4 w-4 animate-spin" /> Checking...
-                </>
-              ) : (
-                "Check Receipt"
-              )}
-            </Button>
-            <Button onClick={handleClear} variant="outline">
-              Clear
-            </Button>
-          </div>
-        </div>
-        <div className="p-6 pt-0">
-          {(overallStatus === "checking" || result) && (
-            <LiveResultDisplay
-              result={result}
-              loading={loading}
-              loanno={loanno}
-              receiptAmount={receiptAmount}
-              date={date}
-              receiptNo={receiptNo}
+      </div>
+      <div className="p-6 pt-0 space-y-4">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="loanno">Loan Number</Label>
+            <Input
+              id="loanno"
+              value={loanno}
+              onChange={(e) => setLoanno(e.target.value)}
             />
-          )}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="receiptNo">Receipt Number</Label>
+            <Input
+              id="receiptNo"
+              value={receiptNo}
+              onChange={(e) => setReceiptNo(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="receiptAmount">Receipt Amount</Label>
+            <Input
+              id="receiptAmount"
+              type="number"
+              value={receiptAmount}
+              onChange={(e) => setReceiptAmount(e.target.value)}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="date">Date</Label>
+            <Input
+              id="date"
+              type="text"
+              placeholder="e.g., 10-21-2025"
+              value={dateText}
+              onChange={(e) => handleDateChange(e.target.value)}
+              className={dateError ? "border-red-500" : ""}
+            />
+            {dateError && <p className="text-sm text-red-600">{dateError}</p>}
+          </div>
         </div>
+        <div className="flex space-x-2">
+          <Button
+            onClick={handleCheckReceipt}
+            disabled={loading}
+            className="flex-grow"
+          >
+            {loading ? (
+              <>
+                <Loader className="mr-2 h-4 w-4 animate-spin" /> Checking...
+              </>
+            ) : (
+              "Check Receipt"
+            )}
+          </Button>
+          <Button onClick={handleClear} variant="outline">
+            Clear
+          </Button>
+        </div>
+      </div>
+      <div className="p-6 pt-0">
+        {(overallStatus === "checking" || result) && (
+          <LiveResultDisplay
+            result={result}
+            loading={loading}
+            loanno={loanno}
+            receiptAmount={receiptAmount}
+            date={date}
+            receiptNo={receiptNo}
+          />
+        )}
       </div>
     </div>
   );

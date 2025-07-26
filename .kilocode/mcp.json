@@ -26,6 +26,13 @@
         "--repository",
         "/home/ksdcit/ksdc_tool"
       ]
+    },
+    "puppeteer": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-puppeteer"
+      ]
     }
   }
 }
